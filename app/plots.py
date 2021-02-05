@@ -4,6 +4,7 @@ from bokeh.models import HoverTool, Slider, CustomJS
 from bokeh.embed import json_item
 from . import data
 
+
 def create_hbar(area, plot_data, y_variables=data.model_vars, y_definition=data.label_def_ordered, 
 y_extra_info=data.label_extra_ordered, div_name="myplot"):
 	values = plot_data.to_numpy()
@@ -34,11 +35,13 @@ y_extra_info=data.label_extra_ordered, div_name="myplot"):
 	TOOLS = "hover,save,pan,box_zoom,reset,wheel_zoom"
 	plot = figure(plot_height = 600, plot_width = 800, 
 	          x_axis_label = 'Percentage', 
-	           #y_axis_label = ,
-	           x_range=(0,100), y_range=y_variables, tools=TOOLS, tooltips=tooltips)
+	          y_axis_label = '',
+	          x_range=(0,100), y_range=y_variables, tools=TOOLS, tooltips=tooltips)
+	
+	plot.scatter('values','variables',size=25,source=all_data, fill_color='red',hover_fill_color = 'navy')
 
-	plot.hbar(left='values', y='variables', right=1, height=0.9, fill_color='red', line_color='black', fill_alpha = 0.75,
-	        hover_fill_alpha = 1.0, hover_fill_color = 'navy', source=all_data)
+	#plot.hbar(left='values', y='variables', right=1, height=0.9, fill_color='green', line_color='black', fill_alpha = 0.75,
+	        #hover_fill_alpha = 1.0, hover_fill_color = 'navy', source=all_data)
 	plot.title.text = "Relevant statistics about " + area
 	
 	part_rent_slider = Slider(start=0, end=100, value=plot_data.loc[:, 'WPARTHUUR_P'].iloc[0], step=1, title="Private rental")
